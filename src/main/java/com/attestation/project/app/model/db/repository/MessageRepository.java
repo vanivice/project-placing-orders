@@ -14,11 +14,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     List<Message> findBySenderOrReceiver(Customer sender, Customer receiver);
 
-    @Query("SELECT DISTINCT m.sender FROM Message m WHERE m.receiver.id = :userId " +
-            "UNION " +
-            "SELECT DISTINCT m.receiver FROM Message m WHERE m.sender.id = :userId")
-    List<Customer> findChatPartners(@Param("userId") Long userId);
-
     @Query("SELECT m FROM Message m WHERE " +
             "(m.sender.id = :user1Id AND m.receiver.id = :user2Id) OR " +
             "(m.sender.id = :user2Id AND m.receiver.id = :user1Id) " +
