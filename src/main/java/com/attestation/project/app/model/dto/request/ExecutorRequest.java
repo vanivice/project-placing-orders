@@ -12,15 +12,12 @@ import lombok.experimental.SuperBuilder;
 @ToString
 public class ExecutorRequest {
 
-    @NonNull
     @Schema(description = "эл. почта")
     private String email;
 
-    @NonNull
     @Schema(description = "имя")
     private String firstname;
 
-    @NonNull
     @Schema(description = "информация о себе")
     private String description;
 }

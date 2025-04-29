@@ -15,19 +15,15 @@ import java.time.LocalDateTime;
 
 public class OrderInfoRequest {
 
-    @NonNull
     @Schema(description = "заголовок")
     private String title;
 
-    @NonNull
     @Schema(description = "требования")
     private String requirements;
 
-    @NonNull
     @Schema(description = "сроки")
     private String deadlines;
 
-    @NonNull
     @Schema(description = "стоимость")
     private String cost;
 

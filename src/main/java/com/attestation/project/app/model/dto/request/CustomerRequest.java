@@ -14,15 +14,12 @@ import lombok.experimental.SuperBuilder;
 
 public class CustomerRequest {
 
-    @NonNull
     @Schema(description = "эл. почта")
     private String email;
 
-    @NonNull
     @Schema(description = "логин", example = "art_master")
     private String username;
 
-    @NonNull
     @Schema(description = "имя", example = "Иван")
     private String firstname;
 
