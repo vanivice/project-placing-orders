@@ -51,13 +51,6 @@ public class CustomerService {
         saveCus(customer);
     }
 
-    // метод возращает пользователя
-//    public Customer getByUsername(String username) {
-//        return customerRepository.findByUsername(username)
-//                .orElseThrow(() -> new CommonBackendException("Ошибка: пользователь с таким логином не найден",
-//                        HttpStatus.NOT_FOUND));
-//    }
-
     public Customer getByUsername(String username) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {
@@ -122,11 +115,6 @@ public class CustomerService {
         customer.setMessage("Данные профиля обновлены");
 
         return customer;
-
-//        return CustomerResponse.builder()
-//                .message(getCurrentUser.getUsername() + " Данные профиля обновлены")
-////                .customer(customer)
-//                .build();
     }
 
 
@@ -141,14 +129,6 @@ public class CustomerService {
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
     }
-
-    // выдача прав администратора
-//    @Deprecated
-//    public void getAdmin() {
-//        var user = getCurrentUser();
-//        user.setRole(Role.ADMINISTRATOR);
-//        saveCus(user);
-//    }
 
     // стать исполнителем
     public CustomerResponse getExecutor() {
