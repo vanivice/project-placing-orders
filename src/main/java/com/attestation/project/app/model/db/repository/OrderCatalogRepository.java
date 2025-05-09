@@ -9,12 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface OrderCatalogRepository extends JpaRepository<OrderCatalog, Long> {
-    Optional<OrderCatalog> findById(Long id);
 
     @Query("select  u from OrderCatalog u where u.description like %:filter%")
     Page<OrderCatalog> findAllFiltered(Pageable pageRequest, @Param("filter") String filter);
+
+    @Query(nativeQuery = true, value = "select * from catalogs where executor_id = :executorId")
+    List<OrderCatalog> getMyWorkOrder(@Param("executorId") Long id);
 }

@@ -24,8 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,17 +37,12 @@ public class OrderCatalogService {
     private final OrderService orderService;
     private final CustomerService customerService;
 
-    // проверка на наличие заказа
-    private OrderCatalog getOrderFromDB(Long id) {
-        Optional<OrderCatalog> optionalOrderCatalog = orderCatalogRepository.findById(id);
-        return optionalOrderCatalog
-                .orElseThrow(() -> new CommonBackendException("Ошибка: в каталоге нет такого заказа",
-                        HttpStatus.NOT_FOUND));
-    }
-
     // получить информацию о заказе из каталога
     public OrderInfoResponse getCustomerOrder(Long id) {
-        getOrderFromDB(id);
+
+        if (orderCatalogRepository.findById(id).isEmpty()) {
+            throw new CommonBackendException("Ошибка: такого заказа нет в каталоге", HttpStatus.BAD_REQUEST);
+        }
 
         Order order = orderRepository.getOrder(id);
         OrderInfoResponse orderResponse = mapper.convertValue(order, OrderInfoResponse.class);
@@ -81,7 +74,7 @@ public class OrderCatalogService {
 
         List<OrderCatalogResponse> content = orderCatalogs.getContent().stream()
                 .map(o -> mapper.convertValue(o, OrderCatalogResponse.class))
-                .collect(Collectors.toList());
+                .toList();
 
         return new PageImpl<>(content, pageRequest, orderCatalogs.getTotalElements());
     }
@@ -113,7 +106,9 @@ public class OrderCatalogService {
         orderRepository.save(orderFromDBByCatalog);
         orderCatalogRepository.save(catalogFromDB);
         OrderCatalogResponse message = new OrderCatalogResponse();
-        message.setMessage("Заказ " + orderFromDBByCatalog.getId() + " успешно взят в работу");
+        message.setMessage("Заказ "
+                + orderFromDBByCatalog.getId()
+                + " успешно взят в работу");
 
         return message;
     }
@@ -149,7 +144,9 @@ public class OrderCatalogService {
         orderRepository.save(orderFromDBByCatalog);
         orderCatalogRepository.save(catalogFromDB);
         OrderCatalogResponse message = new OrderCatalogResponse();
-        message.setMessage("Заказ " + orderFromDBByCatalog.getId() + " завершен");
+        message.setMessage("Заказ "
+                + orderFromDBByCatalog.getId()
+                + " завершен");
 
         return message;
     }

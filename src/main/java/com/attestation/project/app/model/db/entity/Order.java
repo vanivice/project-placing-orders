@@ -47,9 +47,4 @@ public class Order {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "catalog_id")
     private OrderCatalog catalog;
-
-//    @JsonBackReference
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "customer_id")
-//    private Customer author;
 }

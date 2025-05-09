@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -94,14 +93,14 @@ public class OrderService {
     // поиск заказа по номеру заказа
     public Order getOrderFromDB(String number) {
         Optional<Order> optionalOrder = orderRepository.findById(number);
-        final String errMsg = ("Заказ: " + number + "отсутствует");
+        final String errMsg = ("Заказ: " + number + " не найден");
         return optionalOrder.orElseThrow(() -> new CommonBackendException(errMsg, HttpStatus.NOT_FOUND));
     }
 
     // поиск заказа в каталоге по номеру каталога
     public OrderCatalog getCatalogFromDB(Long id) {
         Optional<OrderCatalog> optionalCatalog = orderCatalogRepository.findById(id);
-        final String errMsg = ("Заказ с номером в каталоге: " + id + "отсутствует");
+        final String errMsg = ("Заказ с номером в каталоге: " + id + " не найден");
         return optionalCatalog.orElseThrow(() -> new CommonBackendException(errMsg, HttpStatus.NOT_FOUND));
     }
 
@@ -118,15 +117,15 @@ public class OrderService {
     // получить свои заказы
     public List<OrderInfoResponse> getMyOrder() {
 
-        Long CurrentId = customerService.getCurrentUser().getId();
+        Long currentId = customerService.getCurrentUser().getId();
 
-        if (orderRepository.getMyOrder(CurrentId).isEmpty()) {
+        if (orderRepository.getMyOrder(currentId).isEmpty()) {
             throw new CommonBackendException("Ошибка: вы не сделали ни одного заказа", HttpStatus.NOT_FOUND);
         }
 
-        return orderRepository.getMyOrder(CurrentId).stream()
+        return orderRepository.getMyOrder(currentId).stream()
                 .map(order -> mapper.convertValue(order, OrderInfoResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // удалить заказ

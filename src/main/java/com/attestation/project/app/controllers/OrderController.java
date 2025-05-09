@@ -37,11 +37,6 @@ public class OrderController {
         return orderService.getCustomerOrder(number);
     }
 
-//    @GetMapping("/da/{id}")
-//    @Operation(summary = "Получить заказ по номеру заказа")
-//    public OrderCatalog get(@PathVariable Long id) {
-//        return orderService.getCatalogFromDB(id);
-//    }
 
     @PutMapping("/update/{number}")
     @Operation(summary = "Обновить данные по заказу по номеру заказа")

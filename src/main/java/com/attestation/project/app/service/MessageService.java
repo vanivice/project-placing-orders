@@ -18,7 +18,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +62,7 @@ public class MessageService {
 
         return messages.stream()
                 .map(message -> mapper.convertValue(message, MessageResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // метод для отправки сообщений

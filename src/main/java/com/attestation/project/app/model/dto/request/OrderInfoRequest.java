@@ -27,5 +27,6 @@ public class OrderInfoRequest {
     @Schema(description = "стоимость")
     private String cost;
 
+    @Schema(description = "дата публикации")
     private LocalDateTime createDate;
 }

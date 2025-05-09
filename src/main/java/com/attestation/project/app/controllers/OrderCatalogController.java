@@ -2,6 +2,7 @@ package com.attestation.project.app.controllers;
 
 import com.attestation.project.app.model.dto.response.OrderCatalogResponse;
 import com.attestation.project.app.model.dto.response.OrderInfoResponse;
+import com.attestation.project.app.service.ExecutorService;
 import com.attestation.project.app.service.OrderCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/order-catalog")
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 public class OrderCatalogController {
     private final OrderCatalogService orderCatalogService;
+    private final ExecutorService executorService;
 
     @GetMapping("/all")
     @Operation(summary = "Список заказов из каталога")
@@ -49,5 +53,12 @@ public class OrderCatalogController {
     @Operation(summary = "Завершить заказ по id в каталоге")
     public OrderCatalogResponse endOrderWork(@PathVariable Long id) {
         return orderCatalogService.finishWorkOrder(id);
+    }
+
+    @GetMapping("/get-my-work")
+    @PreAuthorize("hasRole('EXECUTOR')")
+    @Operation(summary = "Получить список заказов у себя в работе")
+    public List<OrderCatalogResponse> getMyWorkOrder() {
+        return executorService.getMyOrder();
     }
 }
