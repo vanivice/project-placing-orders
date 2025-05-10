@@ -1,6 +1,7 @@
 package com.attestation.project.app.service;
 
 import com.attestation.project.app.exception.CommonBackendException;
+import com.attestation.project.app.model.db.entity.Executor;
 import com.attestation.project.app.model.db.entity.Order;
 import com.attestation.project.app.model.db.entity.OrderCatalog;
 import com.attestation.project.app.model.db.repository.OrderCatalogRepository;
@@ -131,14 +132,20 @@ public class OrderService {
     // удалить заказ
     public OrderInfoResponse deleteMyOrder (String number){
         Order orderFromDB = getOrderFromDB(number);
+        Long catalogId = orderFromDB.getCatalog().getId();
+
+        Executor executorFromDB = getCatalogFromDB(catalogId).getExecutor();
 
         if (!Objects.equals(orderFromDB.getCustomer().getId(), customerService.getCurrentUser().getId())) {
             throw new CommonBackendException("Ошибка: вы не можете удалить этот заказ", HttpStatus.CONFLICT);
         }
 
         if(orderFromDB.getStatus() == OrderStat.AT_WORK) {
-            throw new CommonBackendException("Ошибка: нельзя удалить заказ, который находится в работе," +
-                    "свяжитесь с исполнителем", HttpStatus.CONFLICT);
+            throw new CommonBackendException("Ошибка: нельзя удалить заказ, который находится в работе,"
+                    + " свяжитесь с исполнителем "
+                    + executorFromDB.getFirstname()
+                    + ", используйте сообщения /message/send/"
+                    + executorFromDB.getCustomer().getId(), HttpStatus.CONFLICT);
         }
 
         OrderCatalog catalogFromDB = getCatalogFromDB(orderFromDB.getCatalog().getId());
@@ -147,7 +154,7 @@ public class OrderService {
         orderCatalogRepository.delete(catalogFromDB);
 
         OrderInfoResponse message = new OrderInfoResponse();
-        message.setMessage("Заказ: " + orderFromDB.getId() + "удален");
+        message.setMessage("Заказ: " + orderFromDB.getId() + " удален");
 
         return message;
     }

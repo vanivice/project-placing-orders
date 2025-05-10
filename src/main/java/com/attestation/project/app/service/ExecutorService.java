@@ -49,7 +49,7 @@ public class ExecutorService {
         Customer customer = customerService.getCurrentUser();
         Executor executorFromDB = executorRepository.findByEmail(customer.getEmail());
 
-        if (orderCatalogRepository.getMyWorkOrder(executorFromDB.getId()) != null) {
+        if (orderCatalogRepository.getMyWorkOrder(executorFromDB.getId()).size() != 0) {
             throw new CommonBackendException("Ошибка: у вас в работе есть заказы", HttpStatus.BAD_REQUEST);
         }
 

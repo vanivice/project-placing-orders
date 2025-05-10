@@ -105,12 +105,15 @@ public class OrderCatalogService {
 
         orderRepository.save(orderFromDBByCatalog);
         orderCatalogRepository.save(catalogFromDB);
-        OrderCatalogResponse message = new OrderCatalogResponse();
-        message.setMessage("Заказ "
+
+        OrderCatalogResponse messageAndStat = new OrderCatalogResponse();
+
+        messageAndStat.setStatus(OrderStat.AT_WORK);
+        messageAndStat.setMessage("Заказ "
                 + orderFromDBByCatalog.getId()
                 + " успешно взят в работу");
 
-        return message;
+        return messageAndStat;
     }
 
     // завершить заказ

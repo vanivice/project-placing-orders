@@ -1,6 +1,5 @@
 package com.attestation.project.app.controllers;
 
-import com.attestation.project.app.model.db.entity.Message;
 import com.attestation.project.app.model.dto.request.MessageRequest;
 import com.attestation.project.app.model.dto.response.MessageResponse;
 import com.attestation.project.app.service.MessageService;
@@ -29,7 +28,7 @@ public class MessageController {
 
     @GetMapping("/my-message")
     @Operation(summary = "Посмотреть свои сообщения")
-    public List<Message> getMessagesByUser() {
+    public List<MessageResponse> getMessagesByUser() {
         return messageService.getMessagesByUser();
     }
 

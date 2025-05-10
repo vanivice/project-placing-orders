@@ -35,9 +35,12 @@ public class MessageService {
         return optionalMessage.orElseThrow(() -> new CommonBackendException(errMsg, HttpStatus.NOT_FOUND));
     }
 
-    public List<Message> getMessagesByUser() {
+    public List<MessageResponse> getMessagesByUser() {
         Customer customer = customerService.getCurrentUser();
-        return messageRepository.findBySenderOrReceiver(customer, customer);
+
+        return messageRepository.findBySenderOrReceiver(customer, customer).stream()
+                .map(message -> mapper.convertValue(message, MessageResponse.class))
+                .toList();
     }
 
     public List<Message> getMessagesBetween(CustomerResponse user1, CustomerResponse user2) {
