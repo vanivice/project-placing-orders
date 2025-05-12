@@ -13,11 +13,11 @@
 
 ## Архитектура проекта
  Основные компоненты:
-- **Модель (Model):** Представлена классами `Customer`, `Executor`, `Message`, `Order`, `OrderCatalog`, которые хранят данные пользователей, сообщений и заказов.
+- **Модель (Model):** Представлена классами `Customer`, `Executor`, `Message`, `Order`, `OrderCatalog`, `Review`, которые хранят данные пользователей, сообщений, заказов и отзывов.
  
-- **Контроллеры (Controller):** `AuthController`, `СustomerController`, `ExecutorController`, `MessageController`, `OrderController`, `OrderCatalogController`, обрабатывают запросы пользователей и взаимодействуют с сервисами.
+- **Контроллеры (Controller):** `AuthController`, `СustomerController`, `ExecutorController`, `MessageController`, `OrderController`, `OrderCatalogController`, `ReviewController` обрабатывают запросы пользователей и взаимодействуют с сервисами.
 
-- **Репозитории (Repository):** `CustomerRepository`, `ExecutorRepository`, `MessageRepository`, `OrderRepository` и `OrderCatalogRepository` обеспечивают доступ к данным через JPA.
+- **Репозитории (Repository):** `CustomerRepository`, `ExecutorRepository`, `MessageRepository`, `OrderRepository`, `OrderCatalogRepository`, `ReviewRepository` обеспечивают доступ к данным через JPA.
 
 - **Безопасность:** `SecurityConfig` и `JwtAuthenticationFilter` настраивают аутентификацию и авторизацию с использованием Spring Security.
   
