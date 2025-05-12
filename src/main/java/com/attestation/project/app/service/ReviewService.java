@@ -31,7 +31,6 @@ public class ReviewService {
         return optionalOrder.orElseThrow(() -> new CommonBackendException(errMsg, HttpStatus.NOT_FOUND));
     }
 
-    // создать отзыв
     public ReviewInfoResponse createReview(ReviewInfoRequest request, Long id) {
 
         orderService.getOrderFromDB(request.getOrderId());
@@ -66,7 +65,6 @@ public class ReviewService {
         return mapper.convertValue(save, ReviewInfoResponse.class);
     }
 
-    // посмотреть свои отзывы
     public List<ReviewInfoResponse> getMyReviews() {
 
         Long currentId = customerService.getCurrentUser().getId();
@@ -80,7 +78,6 @@ public class ReviewService {
                 .toList();
     }
 
-    // посмотреть отзывы об исполнителе
     public List<ReviewInfoResponse> getReviewsByExecutor(Long id) {
 
         if (executorRepository.findById(id) == null) {
@@ -96,7 +93,6 @@ public class ReviewService {
                 .toList();
     }
 
-    // удалить отзыв
     public ReviewInfoResponse deleteMyReview(Long id) {
 
         Review review = getReviewFromDB(id);

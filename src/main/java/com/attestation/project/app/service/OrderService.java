@@ -27,7 +27,6 @@ public class OrderService {
     private final OrderCatalogRepository orderCatalogRepository;
     private final CustomerService customerService;
 
-    // создать заказ
     public OrderInfoResponse createOrder(OrderInfoRequest request) {
 
         orderRepository.findByTitleAndCost(request.getTitle(), request.getCost())
@@ -52,7 +51,6 @@ public class OrderService {
         return mapper.convertValue(save, OrderInfoResponse.class);
     }
 
-    // обновить данные о заказе
     public OrderInfoResponse updateMyOrder(String numberOrder, OrderInfoRequest req) {
 
         Order orderFromDB = getOrderFromDB(numberOrder);
@@ -91,21 +89,18 @@ public class OrderService {
         return orderInfoResponse;
     }
 
-    // поиск заказа по номеру заказа
     public Order getOrderFromDB(String number) {
         Optional<Order> optionalOrder = orderRepository.findById(number);
         final String errMsg = ("Заказ: " + number + " не найден");
         return optionalOrder.orElseThrow(() -> new CommonBackendException(errMsg, HttpStatus.NOT_FOUND));
     }
 
-    // поиск заказа в каталоге по номеру каталога
     public OrderCatalog getCatalogFromDB(Long id) {
         Optional<OrderCatalog> optionalCatalog = orderCatalogRepository.findById(id);
         final String errMsg = ("Заказ с номером в каталоге: " + id + " не найден");
         return optionalCatalog.orElseThrow(() -> new CommonBackendException(errMsg, HttpStatus.NOT_FOUND));
     }
 
-    // получить заказ по номеру
     public OrderInfoResponse getCustomerOrder(String number) {
         Order order = getOrderFromDB(number);
 
@@ -115,7 +110,6 @@ public class OrderService {
         return orderInfoResponse;
     }
 
-    // получить свои заказы
     public List<OrderInfoResponse> getMyOrder() {
 
         Long currentId = customerService.getCurrentUser().getId();
@@ -129,7 +123,6 @@ public class OrderService {
                 .toList();
     }
 
-    // удалить заказ
     public OrderInfoResponse deleteMyOrder (String number){
         Order orderFromDB = getOrderFromDB(number);
         Long catalogId = orderFromDB.getCatalog().getId();

@@ -24,16 +24,14 @@ public class CustomerService {
     private final ExecutorRepository executorRepository;
     private final ObjectMapper mapper;
 
-    // метод сохр. пользователя
     public void saveCus(Customer customer) {
         customerRepository.save(customer);
     }
-    // метод сохр. исполнителя
+
     public void saveExe(Executor executor) {
         executorRepository.save(executor);
     }
 
-    // метод созд. пользователя
     public void create (Customer customer) {
 
         if (!EmailValidator.getInstance().isValid(customer.getEmail())) {
@@ -63,7 +61,6 @@ public class CustomerService {
         return executorRepository.findByEmail(email);
     }
 
-    // метод удаляет пользователя
     public CustomerResponse deleteUser() {
         Customer getCurrentUser = getCurrentUser();
 
@@ -117,21 +114,17 @@ public class CustomerService {
         return customer;
     }
 
-
-    // метод возращает пользователя (spring security)
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }
 
-    // метод получения текущего пользователя
     public Customer getCurrentUser() {
         // Получение имени пользователя из контекста Spring Security
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
     }
 
-    // стать исполнителем
-    public CustomerResponse getExecutor() {
+    public CustomerResponse getRoleExecutor() {
         var customer = getCurrentUser();
         customer.setRole(Role.ROLE_EXECUTOR);
         saveCus(customer);

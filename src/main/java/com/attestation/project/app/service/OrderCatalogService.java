@@ -37,7 +37,6 @@ public class OrderCatalogService {
     private final OrderService orderService;
     private final CustomerService customerService;
 
-    // получить информацию о заказе из каталога
     public OrderInfoResponse getCustomerOrder(Long id) {
 
         if (orderCatalogRepository.findById(id).isEmpty()) {
@@ -59,7 +58,6 @@ public class OrderCatalogService {
         return orderResponse;
     }
 
-    // просмотерть весь каталог заказов
     public Page<OrderCatalogResponse> getAllCatalog(Integer page, Integer perPage, String sort, Sort.Direction order, String filter) {
 
         Pageable pageRequest = PaginationUtils.getPageRequest(page, perPage, sort, order);
@@ -79,7 +77,6 @@ public class OrderCatalogService {
         return new PageImpl<>(content, pageRequest, orderCatalogs.getTotalElements());
     }
 
-    // взять заказ в работу
     public OrderCatalogResponse getWorkOrder(Long id) {
 
         if (orderCatalogRepository.findById(id).isEmpty()) {
@@ -116,7 +113,6 @@ public class OrderCatalogService {
         return messageAndStat;
     }
 
-    // завершить заказ
     public OrderCatalogResponse finishWorkOrder(Long catalogId) {
 
         String email = customerService.getCurrentUser().getEmail();

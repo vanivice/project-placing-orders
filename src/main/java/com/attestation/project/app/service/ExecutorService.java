@@ -31,7 +31,6 @@ public class ExecutorService {
     private final ObjectMapper mapper;
     private final OrderCatalogRepository orderCatalogRepository;
 
-    // обновить информацию о себе
     public ExecutorResponse updateExecutor(ExecutorRequest request) {
         Executor executorFromDB = executorRepository.findByEmail(customerService.getCurrentUser().getEmail());
         Executor executorRequest = mapper.convertValue(request, Executor.class);
@@ -43,8 +42,7 @@ public class ExecutorService {
         return mapper.convertValue(executorFromDB, ExecutorResponse.class);
     }
 
-    // отказаться от роли исполнителя
-    public CustomerResponse getCustomer() {
+    public CustomerResponse getRoleCustomer() {
 
         Customer customer = customerService.getCurrentUser();
         Executor executorFromDB = executorRepository.findByEmail(customer.getEmail());
@@ -63,7 +61,6 @@ public class ExecutorService {
                 .build();
     }
 
-    // посмотреть всех исполнителей
     public Page<ExecutorResponse> getAllExecutor(Integer page, Integer perPage, String sort, Sort.Direction order, String filter) {
 
         Pageable pageRequest = PaginationUtils.getPageRequest(page, perPage, sort, order);
@@ -83,7 +80,6 @@ public class ExecutorService {
         return new PageImpl<>(content, pageRequest, executors.getTotalElements());
     }
 
-    // посмотерть список заказов в работе
     public List<OrderCatalogResponse> getMyOrder() {
 
         String currentEmail = customerService.getCurrentUser().getEmail();

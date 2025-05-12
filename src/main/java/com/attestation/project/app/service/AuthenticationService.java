@@ -25,7 +25,6 @@ public class AuthenticationService {
         return password;
     }
 
-    // регистрация пользователя
     public JwtAuthResponse signUp(SignUpRequest request) {
 
         String messageUp = request.getUsername() + " Регистрация прошла успешно";
@@ -44,7 +43,6 @@ public class AuthenticationService {
         return new JwtAuthResponse(jwt, messageUp);
     }
 
-    // авторизация пользователя
     public JwtAuthResponse signIn(SignInRequest request) {
 
         String messageIn = request.getUsername() + " Авторизация прошла успешно";

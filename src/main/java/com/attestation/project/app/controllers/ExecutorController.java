@@ -30,7 +30,7 @@ public class ExecutorController {
     @PreAuthorize("hasRole('EXECUTOR')")
     @Operation(summary = "Удалить статус исполнителя")
     public CustomerResponse getCustomer() {
-        return executorService.getCustomer();
+        return executorService.getRoleCustomer();
     }
 
     @GetMapping("/get-all")

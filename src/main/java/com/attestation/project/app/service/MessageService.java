@@ -47,7 +47,6 @@ public class MessageService {
         return messageRepository.findMessagesBetween(user1.getId(), user2.getId());
     }
 
-    // метод для просмотра сообщений с конкретным пользователем
     public List<MessageResponse> getMessagePartners(Long receiverId) {
 
         Customer currentCustomer = customerService.getCurrentUser();
@@ -68,7 +67,6 @@ public class MessageService {
                 .toList();
     }
 
-    // метод для отправки сообщений
     public MessageResponse sendMessage(Long receiverId, MessageRequest request) {
         Customer sender = customerService.getCurrentUser();
         Customer receiver = customerRepository.findById(receiverId).orElseThrow();
@@ -93,7 +91,6 @@ public class MessageService {
         return mapper.convertValue(messageResponse, MessageResponse.class);
     }
 
-    // удалить сообщение
     public MessageResponse deleteMessage(Long id) {
 
         Message messageFromDB = getMessageFromDB(id);

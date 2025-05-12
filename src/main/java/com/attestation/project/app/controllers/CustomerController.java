@@ -38,6 +38,6 @@ public class CustomerController {
     @GetMapping("/get-ex")
     @Operation(summary = "Стать исполнителем")
     public CustomerResponse getExecutor() {
-        return customerService.getExecutor();
+        return customerService.getRoleExecutor();
     }
 }
