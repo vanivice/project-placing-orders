@@ -21,19 +21,19 @@ public class Order {
     @Column(name = "id")
     private String id = UUID.randomUUID().toString();
 
-    @Column(name = "title") //название объявления
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "requirements") //требования
+    @Column(name = "requirements")
     private String requirements;
 
-    @Column(name = "deadlines") //сроки
+    @Column(name = "deadlines")
     private String deadlines;
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
-    @Column(name = "cost") //стоимость
+    @Column(name = "cost")
     private String cost;
 
     @Enumerated(EnumType.STRING)
